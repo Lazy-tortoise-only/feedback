@@ -1,0 +1,21 @@
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://localhost:3306/feedback?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+mybatis-plus:
+
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.timing.feedback.entity,com.timing.feedback.vo
+
+
+
+
+

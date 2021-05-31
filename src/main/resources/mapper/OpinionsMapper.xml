@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.timing.feedback.mapper.OpinionsMapper">
+    <resultMap id="opinions" type="opinionsVO">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="nickname" column="nickname"/>
+        <result property="opinionsType" column="opinions_type"/>
+        <result property="opinionsContent" column="opinions_content"/>
+        <result property="opinionsContact" column="opinions_contact"/>
+        <result property="state" column="state"/>
+        <association property="opinionsReplyVO" javaType="opinionsReplyVO" >
+            <id property="id" column="rid"/>
+            <result property="customerServiceId" column="customer_service_id"/>
+            <result property="replyContent" column="reply_content"/>
+            <result property="replyClose" column="reply_close"/>
+            <result property="state" column="rstate"/>
+        </association>
+    </resultMap>
+
+    <select id="listOpinions" resultMap="opinions">
+        select o.id,o.user_id,o.create_time,u.nickname,o.opinions_type,o.opinions_content,o.opinions_contact ,
+               o.state ,r.id as rid, r.customer_service_id, r.reply_content, r.reply_close, r.state as rstate
+        from opinions o
+            left join opinions_reply r on o.id = r.opinions_id
+            left join user u on o.user_id=u.id
+        where o.user_id=#{userId}
+        order by o.create_time desc
+    </select>
+
+</mapper>

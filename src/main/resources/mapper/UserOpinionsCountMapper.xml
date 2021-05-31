@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.timing.feedback.mapper.UserOpinionsCountMapper">
+
+    <resultMap id="userOpinionsCount" type="UserOpinionsCountVO">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="count" column="count"/>
+        <result property="nickname" column="nickname"/>
+    </resultMap>
+
+    <insert id="addUserCount">
+        update user_opinions_count set count=count+1 where id=#{id}
+    </insert>
+
+    <update id="deductUserCount">
+        update user_opinions_count set count=count-1 where id=#{id}
+    </update>
+
+
+    <select id="listUserCount" resultMap="userOpinionsCount">
+        select uoc.id,uoc.user_id,uoc.count,u.nickname
+        from user_opinions_count uoc, user u
+        where uoc.user_id = u.id and count>0
+        order by uoc.last_add_time desc
+    </select>
+</mapper>
